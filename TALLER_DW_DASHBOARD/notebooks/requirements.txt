@@ -1,0 +1,11 @@
+# conexion a postgres
+sqlalchemy==2.0.32
+psycopg2-binary==2.9.9
+
+# conexion a clickhouse
+clickhouse-connect==0.7.19
+
+# manejo de datos
+pandas==2.2.2
+pyarrow==14.0.2
+matplotlib==3.9.2
