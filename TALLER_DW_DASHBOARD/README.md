@@ -9,19 +9,24 @@ publicidad los fines de semana.
 
 ## Como levantarlo
 
-```
-podman machine start
-podman compose up -d --build
-```
-
-Si se usa Docker es el mismo compose:
+Hace falta Docker Desktop corriendo. Si el daemon esta apagado, el compose falla con
+`Cannot connect to the Docker daemon at unix:///Users/<usuario>/.docker/run/docker.sock`. En macOS se
+arranca con `open -a Docker` y hay que esperar a que responda `docker info`.
 
 ```
 docker compose up -d --build
 ```
 
 La primera vez demora un poco porque Jupyter instala los requirements al arrancar y Superset corre las
-migraciones de su base de metadatos.
+migraciones de su base de metadatos. Que el compose diga `Started` no significa que los servicios
+contesten todavia: conviene esperar a que los puertos respondan.
+
+```
+curl -s http://localhost:8123/ping          # ClickHouse, responde Ok.
+curl -s -o /dev/null -w '%{http_code}' http://localhost:8888/lab    # Jupyter, 302 cuando esta listo
+curl -s -o /dev/null -w '%{http_code}' http://localhost:8088/login/ # Superset, 200 cuando esta listo
+docker compose ps                           # los cuatro en running (healthy)
+```
 
 Accesos:
 
